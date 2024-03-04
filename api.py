@@ -43,5 +43,19 @@ class ToDo(Resource):
         id_=todo._id
         return {"id":str(id_)},201
 
+    @marshal_with(ressource_fields)
+    def put(self,tod_id):
+        args=task_update_args.parse_args()
+        if args['task']:
+            Todomodel.objects.get(_id=tod_id).update(task=args['task'])
+        if args['summary']:
+            Todomodel.objects.get(_id=tod_id).update(task=args['summary'])
+        return "{} updated !".format(tod_id),200
+    def delete(self,todo_id):
+        Todomodel.objects.get(_id=todo_id).delete()
+        return "To do deleted",204
+    
+api.add_resource(ToDo,'/todos/<int:todo_id>')
+            
 if __name__=='__main':
     app.run(debug=True)

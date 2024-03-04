@@ -11,6 +11,10 @@ app.config['MONGODB_SETTINGS']={
 db=MongoEngine()
 db.init_app(app)
 
+class Todomodel(db.Document):
+    _id=db.IntField()
+    task=db.StringField(required=True)
+    summary=db.StringField(required=True)
 task_pos_args=reqparse.RequestParser()
 task_pos_args.add_argument("task",type=str,help="Task is required",required=True)
 task_pos_args.add_argument("summary",type=str,help="Summary is required",required=True)
